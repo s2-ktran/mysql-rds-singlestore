@@ -33,7 +33,7 @@ export class MySQLStack extends cdk.Stack {
     // Database Parameter Group
     const parameterGroup = new cdk.aws_rds.ParameterGroup(this, 'MySQLParameterGroup', {
       engine: cdk.aws_rds.DatabaseInstanceEngine.mysql({
-        version: cdk.aws_rds.MysqlEngineVersion.VER_8_0_31
+        version: cdk.aws_rds.MysqlEngineVersion.VER_8_0_36
       }),
       parameters: {
         time_zone: 'UTC',
@@ -43,9 +43,10 @@ export class MySQLStack extends cdk.Stack {
     // RDS MySQL Instance
     const dbInstance = new cdk.aws_rds.DatabaseInstance(this, 'MySqlRdsInstance', {
       engine: cdk.aws_rds.DatabaseInstanceEngine.mysql({
-        version: cdk.aws_rds.MysqlEngineVersion.VER_8_0_31
+        version: cdk.aws_rds.MysqlEngineVersion.VER_8_0_36
       }),
       vpc,
+      instanceType: cdk.aws_ec2.InstanceType.of(cdk.aws_ec2.InstanceClass.T3, cdk.aws_ec2.InstanceSize.MICRO),
       credentials: {
         username: user.username,
         password: cdk.SecretValue.unsafePlainText(user.password)
@@ -54,9 +55,9 @@ export class MySQLStack extends cdk.Stack {
       parameterGroup,
       multiAz: false,
       allocatedStorage: 5,
-      maxAllocatedStorage: 100,
+      maxAllocatedStorage: 50,
       deletionProtection: false,
-      publiclyAccessible: false,
+      publiclyAccessible: true,
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       }
@@ -68,5 +69,15 @@ export class MySQLStack extends cdk.Stack {
       value: dbInstance.instanceEndpoint.hostname,
       exportName: 'RdsEndpoint'
     });
+
+    new cdk.CfnOutput(this, 'RdsInstanceIdentifier', {
+      value: dbInstance.instanceIdentifier,
+      exportName: 'RdsIdentifier',
+    })
+
+    new cdk.CfnOutput(this, 'RdsParameterGroupName', {
+      value: parameterGroup.toString(),
+      exportName: "RdsParameterGroupName",
+    })
   }
 }
