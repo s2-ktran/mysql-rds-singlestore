@@ -33,7 +33,7 @@ echo "RDS Endpoint: $RDS_ENDPOINT"
 
 RDS_IDENTIFIER=$(aws cloudformation describe-stacks \
     --stack-name MySQLStack \
-    --query 'Stacks[0].Outputs[?OutputKey==`RdsIdentifier`].OutputValue' \
+    --query 'Stacks[0].Outputs[?OutputKey==`RdsInstanceIdentifier`].OutputValue' \
     --region $AWS_REGION \
     --output text)
 echo "RDS Identifier: $RDS_IDENTIFIER"
