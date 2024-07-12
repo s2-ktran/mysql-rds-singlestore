@@ -6,6 +6,7 @@ import { MySQLStack } from '../lib/mysql-stack';
 const app = new cdk.App();
 
 const envVariables = {
+	projectName: "s2mysql",
 	region: process.env["AWS_REGION"] ?? "",
 	accountId: process.env["AWS_ACCOUNT_ID"] ?? "",
 };

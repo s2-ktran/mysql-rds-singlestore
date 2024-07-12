@@ -2,15 +2,19 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 export interface MySQLStackProps extends cdk.StackProps {
+  projectName: string;
 	accountId: string;
 	region: string;
 }
 
 export class MySQLStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: MySQLStackProps) {
+  constructor(scope: Construct, id: string, props: MySQLStackProps) {
     super(scope, id, props);
 
-    // VPC
+    const { projectName, accountId } = props;
+
+    const name = `${projectName}-${accountId}`;
+
     const vpc = new cdk.aws_ec2.Vpc(this, 'MyVpc', {
       maxAzs: 2,
       natGateways: 1
@@ -35,6 +39,7 @@ export class MySQLStack extends cdk.Stack {
       engine: cdk.aws_rds.DatabaseInstanceEngine.mysql({
         version: cdk.aws_rds.MysqlEngineVersion.VER_8_0_36
       }),
+      name: `${name}-pg`,
       parameters: {
         time_zone: 'UTC',
       }
@@ -45,6 +50,7 @@ export class MySQLStack extends cdk.Stack {
       engine: cdk.aws_rds.DatabaseInstanceEngine.mysql({
         version: cdk.aws_rds.MysqlEngineVersion.VER_8_0_36
       }),
+      instanceIdentifier: name,
       vpc,
       instanceType: cdk.aws_ec2.InstanceType.of(cdk.aws_ec2.InstanceClass.T3, cdk.aws_ec2.InstanceSize.MICRO),
       credentials: {
@@ -63,8 +69,6 @@ export class MySQLStack extends cdk.Stack {
       }
     });
 
-    // TODO: Populating data automatically using cloud
-
     new cdk.CfnOutput(this, 'RdsEndpointExport', {
       value: dbInstance.instanceEndpoint.hostname,
       exportName: 'RdsEndpoint'
@@ -76,7 +80,7 @@ export class MySQLStack extends cdk.Stack {
     })
 
     new cdk.CfnOutput(this, 'RdsParameterGroupName', {
-      value: parameterGroup.toString(),
+      value: `${name}-pg`,
       exportName: "RdsParameterGroupName",
     })
 
