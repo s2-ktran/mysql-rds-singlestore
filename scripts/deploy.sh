@@ -22,7 +22,7 @@ cd $SCRIPT_DIR/../cdk
 cdk synth
 cdk deploy --all --require-approval never
 
-# RDS Endpoint
+# CDK Outputs
 echo "CloudFormation Outputs..."
 RDS_ENDPOINT=$(aws cloudformation describe-stacks \
     --stack-name MySQLStack \
@@ -45,5 +45,9 @@ RDS_PG_NAME=$(aws cloudformation describe-stacks \
     --output text)
 echo "RDS Parameter Group Name: $RDS_PG_NAME"
 
-# Connecting to MySQL Instance
-# mysql -h $RDS_ENDPOINT --ssl-ca=global-bundle.pem -P 3306 -u testuser -p 
+SG_ID=$(aws cloudformation describe-stacks \
+    --stack-name MySQLStack \
+    --query 'Stacks[0].Outputs[?OutputKey==`RdsSecurityGroup`].OutputValue' \
+    --region $AWS_REGION \
+    --output text)
+echo "RDS Security Group Id: $SG_ID"

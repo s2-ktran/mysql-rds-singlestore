@@ -79,5 +79,10 @@ export class MySQLStack extends cdk.Stack {
       value: parameterGroup.toString(),
       exportName: "RdsParameterGroupName",
     })
+
+    new cdk.CfnOutput(this, 'RdsSecurityGroup', {
+      value: securityGroup.securityGroupId,
+      exportName: "RdsSecurityGroupId",
+    })
   }
 }
