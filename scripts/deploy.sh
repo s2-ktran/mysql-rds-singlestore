@@ -20,5 +20,6 @@ fi
 # Deploy CDK
 echo "Launching CDK application..."
 cd $SCRIPT_DIR/../cdk
+npm ci
 cdk synth
 cdk deploy --all --require-approval never

@@ -6,17 +6,17 @@ With SingleStore, we announced ![native data integration services](https://www.s
 
 This repo contains the code walkthrough the blog: <INSERT_BLOG>.
 
-
 ## Launch Configurations
 
 ### Prerequisites
 
+- git
 - aws-cli
 - aws-cdk >= 2.128.0
 - node >= 21.6.1
 - npm >= 10.4.0
-- git
 - jq >= 1.7.1
+- mysql >= 11.4.2
 
 ### Deployment
 
@@ -43,8 +43,8 @@ Once you are finished using the project, use the following command to delete the
 | cdk/                 | AWS CDK source code.                                           |
 | data/                | RDS data.                                                      |
 | scripts/             | shell scripts to build, deploy, and interact with the project. |
-| docs/assets/         | supporting assets for documentation.                           |
+| assets/              | supporting pics and diagrams for documentation.                |
 
-### AWS Architecture Diagram
+### Architecture Diagram
 
 ![Architecture Diagram](cdk/diagram.png)
