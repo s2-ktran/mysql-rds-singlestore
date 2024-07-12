@@ -9,6 +9,7 @@ const envVariables = {
 	projectName: "s2mysql",
 	region: process.env["AWS_REGION"] ?? "",
 	accountId: process.env["AWS_ACCOUNT_ID"] ?? "",
+	ipAddress: process.env["IP_ADDRESS"] ?? "",
 };
 
 new MySQLStack(app, 'MySQLStack', {

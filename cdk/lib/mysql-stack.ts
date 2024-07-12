@@ -5,13 +5,14 @@ export interface MySQLStackProps extends cdk.StackProps {
   projectName: string;
 	accountId: string;
 	region: string;
+  ipAddress: string;
 }
 
 export class MySQLStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: MySQLStackProps) {
     super(scope, id, props);
 
-    const { projectName, accountId } = props;
+    const { projectName, accountId, ipAddress } = props;
 
     const name = `${projectName}-${accountId}`;
 
@@ -27,11 +28,12 @@ export class MySQLStack extends cdk.Stack {
 
     // Security Group
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, 'MySQLSecurityGroup', {
+      securityGroupName: name,
       vpc,
       description: 'Allow MySQL access',
       allowAllOutbound: true
     });
-    securityGroup.addIngressRule(cdk.aws_ec2.Peer.anyIpv4(), cdk.aws_ec2.Port.tcp(3306), 'Allow MySQL traffic');
+    securityGroup.addIngressRule(cdk.aws_ec2.Peer.ipv4(`${ipAddress}/32`), cdk.aws_ec2.Port.tcp(3306), 'Allow MySQL traffic');
 
 
     // Database Parameter Group
@@ -64,6 +66,7 @@ export class MySQLStack extends cdk.Stack {
       maxAllocatedStorage: 50,
       deletionProtection: false,
       publiclyAccessible: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
       vpcSubnets: {
         subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
       }
