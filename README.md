@@ -1,10 +1,10 @@
-# MySQL RDS Data Integration to SingleStore
+# MySQL RDS Data Integration into SingleStore
 
 Data integration from one database to another is a cumbersome task. There are many considerations such as data integrity and consistency, downtime and performance impact, and schema differences. 
 
-With SingleStore, we announced [native data integration services](https://www.singlestore.com/blog/introducing-native-data-integration-services/) earlier this year. One of these services is to create [connection links](https://docs.singlestore.com/db/v8.7/security/authentication/configuring-and-using-connection-links/) to automatically detect tables and load them in consistently.
+SingleStore is a fast, distributed, cloud SQL database designed to power modern data-intensive applications, delivering maximum performance for both transactional (OLTP) and analytical (OLAP) workloads in a single unified engine. Singlestore recently announced [native data integration services](https://www.singlestore.com/blog/introducing-native-data-integration-services/) including [connection links](https://docs.singlestore.com/db/v8.7/security/authentication/configuring-and-using-connection-links/). These links automatically detect table schemas and provision pipelines supporting high-speed consistent data ingestion.
 
-A common use case we see with customers like [Medaxion](https://www.singlestore.com/blog/case-study-medaxion-analytics-medtech/) is to migrate from MySQL to SingleStore for increased speed of performance and operational efficiencies.
+A common use case with customers is to migrate from MySQL to SingleStore for increased scale and performance. [6sense](https://www.youtube.com/watch?v=i_8cBFeaL48) reaped these benefits and had 5x lower TCO, faster performance, and faster time to market with SingleStore for its real-time analytics use cases.
 
 This blog post walks you through a migration from an Amazon MySQL RDS instance to a SingleStore cluster using this method. 
 
@@ -14,6 +14,8 @@ Don’t have an AWS account? Sign up [here](https://signin.aws.amazon.com/signup
 By the end of this tutorial, you will understand what configurations are needed for conducting this data integration.
 
 ![Architecture Diagram](architecture-diagram.png)
+
+For the full walkthrough of the code, navigate to <blog_name>.
 
 ## Launch Configurations
 
