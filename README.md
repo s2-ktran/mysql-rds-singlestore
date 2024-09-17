@@ -13,8 +13,6 @@ Don’t have an AWS account? Sign up [here](https://signin.aws.amazon.com/signup
 
 By the end of this tutorial, you will understand what configurations are needed for conducting this data integration.
 
-This repo contains the code walkthrough the blog: <INSERT_BLOG>.
-
 ![Architecture Diagram](architecture-diagram.png)
 
 ## Launch Configurations
